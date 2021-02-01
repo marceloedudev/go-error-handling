@@ -6,9 +6,5 @@ import (
 )
 
 func NewBadRequestError(message string, err error) *HttpException {
-	var causes []string
-	if err != nil {
-		causes = validators.NewValidatorError(err)
-	}
-	return NewHttpException(message, http.StatusBadRequest, causes)
+	return NewHttpException(message, http.StatusBadRequest, validators.NewValidatorError(err))
 }

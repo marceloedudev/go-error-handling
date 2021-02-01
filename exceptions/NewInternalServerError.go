@@ -6,9 +6,5 @@ import (
 )
 
 func NewInternalServerError(message string, err error) *HttpException {
-	var causes []string
-	if err != nil {
-		causes = validators.NewValidatorError(err)
-	}
-	return NewHttpException(message, http.StatusInternalServerError, causes)
+	return NewHttpException(message, http.StatusInternalServerError, validators.NewValidatorError(err))
 }

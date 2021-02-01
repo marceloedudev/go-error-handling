@@ -112,3 +112,54 @@ func TestStatus(t *testing.T) {
 	})
 
 }
+
+func TestPanic(t *testing.T) {
+
+	testRouter := AddRouters()
+
+	t.Run("should be able to have 'test' return", func(t *testing.T) {
+
+		req, err := http.NewRequest("POST", "/panic1", nil)
+		req.Header.Set("Content-Type", "application/json")
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		resp := httptest.NewRecorder()
+
+		testRouter.ServeHTTP(resp, req)
+
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		var res = &struct {
+			Message string
+		}{}
+
+		json.Unmarshal(body, &res)
+
+		assert.Equal(t, res.Message, "test")
+
+	})
+
+	t.Run("You should be able to an error", func(t *testing.T) {
+
+		req, err := http.NewRequest("POST", "/panic2", nil)
+		req.Header.Set("Content-Type", "application/json")
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		resp := httptest.NewRecorder()
+
+		testRouter.ServeHTTP(resp, req)
+
+		assert.Equal(t, resp.Code, http.StatusInternalServerError)
+
+	})
+
+}

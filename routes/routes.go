@@ -6,6 +6,7 @@ import (
 	"go-error-handling/exceptions"
 	"go-error-handling/middleware"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -31,6 +32,17 @@ func AddRoutes() *gin.Engine {
 		c.JSON(http.StatusOK, gin.H{
 			"ok": true,
 		})
+	})
+
+	app.POST("/panic1", func(c *gin.Context) {
+		panic("test")
+	})
+
+	app.POST("/panic2", func(c *gin.Context) {
+		_, err := os.Create("/tmp/file")
+		if err != nil {
+			panic(err)
+		}
 	})
 
 	app.NoRoute(func(c *gin.Context) {

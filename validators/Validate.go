@@ -7,6 +7,11 @@ import (
 )
 
 func NewValidatorError(err error) []string {
+
+	if err == nil {
+		return nil
+	}
+
 	res := []string{}
 	errs := err.(validator.ValidationErrors)
 

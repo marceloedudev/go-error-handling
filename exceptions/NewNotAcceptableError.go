@@ -6,9 +6,5 @@ import (
 )
 
 func NewNotAcceptableError(message string, err error) *HttpException {
-	var causes []string
-	if err != nil {
-		causes = validators.NewValidatorError(err)
-	}
-	return NewHttpException(message, http.StatusNotAcceptable, causes)
+	return NewHttpException(message, http.StatusNotAcceptable, validators.NewValidatorError(err))
 }

@@ -6,9 +6,5 @@ import (
 )
 
 func NewUnauthorizedError(message string, err error) *HttpException {
-	var causes []string
-	if err != nil {
-		causes = validators.NewValidatorError(err)
-	}
-	return NewHttpException(message, http.StatusUnauthorized, causes)
+	return NewHttpException(message, http.StatusUnauthorized, validators.NewValidatorError(err))
 }

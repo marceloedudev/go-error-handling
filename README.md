@@ -16,6 +16,14 @@ Example request body:
 
 Required fields: `name`, `email`
 
+`POST /panic1`
+
+return [error](#error-format)
+
+`POST /panic2`
+
+return [error](#error-format)
+
 ## Error format
 
 If a request fails any validation, expect errors in the following format:
@@ -32,6 +40,16 @@ If a request fails any validation, expect errors in the following format:
     "timestamp": "2021-01-31T14:43:20.4841902-03:00",
     "path": "/status"
 }
+```
+
+## Example
+
+```GO
+panic(exceptions.NewInternalServerError("There was a problem with validation", nil))
+```
+
+```GO
+panic("internal error")
 ```
 
 ## Error handling

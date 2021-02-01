@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"go-error-handling/exceptions"
 	"net/http"
 	"time"
@@ -26,7 +27,7 @@ func HandleErrors() gin.HandlerFunc {
 				default:
 					{
 						c.JSON(http.StatusInternalServerError, &exceptions.HttpException{
-							Message:   "Internal server error",
+							Message:   fmt.Sprintf("%v", err),
 							Status:    http.StatusInternalServerError,
 							Error:     http.StatusText(http.StatusInternalServerError),
 							Causes:    nil,
